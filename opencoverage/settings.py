@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     cors: List[str] = []
 
     scm: str
+    gitlab_app_id: Optional[str]
+    gitlab_app_pem_file: Optional[str]
+    gitlab_default_installation_id: Optional[str]
     github_app_id: Optional[str]
     github_app_pem_file: Optional[str]
     github_default_installation_id: Optional[str]

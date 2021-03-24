@@ -206,3 +206,13 @@ async def download_file(
         if not await scm.file_exists(org, repo, commit, filename):
             return JSONResponse({"reason": "fileNotFound"}, status_code=404)
         return StreamingResponse(scm.download_file(org, repo, commit, filename))
+
+
+@router.get("/project/list")
+async def project_list(request: Request, cursor: Optional[str] = None):
+    db = request.app.db
+    result = []
+    cursor, reports = await db.get_pr_reports(cursor=cursor)
+    for report in reports:
+        result.append(_format_pr_report(report))
+    return {"cursor": cursor, "result": result}

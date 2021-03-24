@@ -41,7 +41,7 @@ def parse_files(data: str) -> Dict[str, str]:
 
 def parse_xml_coverage_data(cov_data: str, toc: List[str]) -> types.CoverageData:
     try:
-        dom = etree.fromstring(cov_data)
+        dom = etree.fromstring(cov_data.encode('utf-8'))
     except etree.XMLSyntaxError:
         raise ParsingException("Invalid xml")
 

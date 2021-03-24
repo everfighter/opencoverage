@@ -218,6 +218,26 @@ class Task(Base):  # type: ignore
     creation_date = sa.Column(sa.DateTime, index=True)
     modification_date = sa.Column(sa.DateTime, index=True)
 
+class Project(Base):
+    __tablename__ = "projects"
+    id = sa.Column(sa.Integer, autoincrement=True, primary_key=True)
+    name = sa.Column(sa.String)
+    project_id = sa.Column(sa.Integer)
+    organization = sa.Column(sa.String, index=True)
+    repo = sa.Column(sa.String, index=True)
+    repo_url = sa.Column(sa.String)
+    test_cmd = sa.Column(sa.String)
+    dingtoken = sa.Column(sa.String)
+    dingdesc = sa.Column(sa.String)
+    status = sa.Column(sa.Integer)
+    creation_date = sa.Column(sa.DateTime)
+    modification_date = sa.Column(sa.DateTime)
+    __table_args__ = (
+        PrimaryKeyConstraint('organization', 'repo'),
+        {},
+    )
+    
+
 
 MODELS = (
     Organization,
@@ -229,6 +249,7 @@ MODELS = (
     CoverageRecord,
     CoverageReportPullRequest,
     Task,
+    Project,
 )
 
 

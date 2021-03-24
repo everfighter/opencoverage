@@ -475,3 +475,37 @@ class Database:
             )
         except sqlalchemy.orm.exc.NoResultFound:
             return None
+
+    async def add_project(self, *, name: str, project_id: int, organization: str, repo: str, repo_url: str, test_cmd: str, dingtoken: str, dingdesc: str):
+        await self.db.add(
+            Project(
+                name=name,
+                project_id=project_id,
+                organization=organization,
+                repo=repo,
+                repo_url=repo_url,
+                test_cmd=test_cmd,
+                dingtoken=dingtoken,
+                dingdesc=dingdesc,
+                status=1,
+                creation_date=datetime.utcnow(),
+                modification_date=datetime.utcnow(),
+            )
+        )
+    async def get_projects(self, status: Optional[int] = None,cursor: Optional[str] = None) -> Tuple[str, List[Project]]:
+        try:
+            query = self.db.query(Project)
+            if status is not None:
+                query = query.filter(Project.status == status)
+            return cast(
+                Tuple[str, List[CoverageReport]],
+                await self._paged_results(
+                    query,
+                    Project.modification_date,
+                    limit=10,
+                    cursor=cursor,
+                    reverse=True,
+                ),
+            )
+        except sqlalchemy.orm.exc.NoResultFound:
+            return None

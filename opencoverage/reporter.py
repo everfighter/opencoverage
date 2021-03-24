@@ -120,6 +120,7 @@ class CoverageReporter:
         return True
 
     async def get_coverage_configuration(self) -> Optional[types.CoverageConfiguration]:
+        return None
         if await self.scm.file_exists(
             self.organization, self.repo, self.commit, "cov.yaml"
         ):
@@ -131,7 +132,6 @@ class CoverageReporter:
             text = data.decode("utf-8")
             data = yaml.safe_load(StringIO(text))
             return types.CoverageConfiguration.parse_obj(data)
-        return None
 
     @property
     def report_url(self) -> str:
